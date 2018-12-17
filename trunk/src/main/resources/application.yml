@@ -1,0 +1,39 @@
+# server相关的
+server:
+  port: 5050 # 端口
+  tomcat:
+    uri-encoding: UTF-8 # 编码
+
+# spring相关的
+spring:
+  profiles:
+    active: dev # 可选值：test \ dev \ prod
+  main:
+    banner-mode: console
+  mvc:
+    favicon:
+      enabled: false
+  jackson: # json格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  http:
+    encoding: # 编码
+      force: true
+      enabled: true
+      charset: UTF-8
+    multipart: # 文件上传
+      max-file-size: 10MB
+      max-request-size: 100MB
+# 自定义logback的配置
+logback:
+  logdir: target/test-logs
+  appname: ys-mgr
+  baseLevel: info
+  appLevel: info
+  thirdJarLevel: warn
+
+# 自定义配置
+custom:
+  props:
+    staticPath: classpath:static/staticProperties.yml
+    dynamicPath: classpath:static/dynamicProperties.yml

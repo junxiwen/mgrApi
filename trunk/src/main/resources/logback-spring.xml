@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Spring Boot 提供了一套日志系统，优先选择logback。
+日志服务一般都在ApplicationContext创建前就初始化了，所以日志配置，可以独立于Spring的配置。
+Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如使用logback-spring.xml，而不是logback.xml），
+命名为logback-spring.xml的日志配置文件，spring boot可以为它添加一些spring boot特有的配置项。
+日志级别从低到高分为：TRACE < DEBUG < INFO < WARN < ERROR < FATAL。
+-->
+<configuration>
+    <!--
+        上下文名称: 每个logger都关联到logger上下文，默认上下文名称为“default”，
+        可以通过%contextName来打印日志上下文名称.
+    -->
+    <contextName>logback</contextName>
+
+    <!--<property> 设置变量，定义变量后，可以使“${}”来使用变量。-->
+    <!--<property name="logback.logdir" value="/Users/fmac/Workspaces/LogWorkspaces/demo1"/>-->
+    <!--<property name="logback.appname" value="demo1"/>-->
+    <!--官方文档指明，需要使用<springProperty>,才可使用application.properties（或application.yml）中的值-->
+    <springProperty scope="context" name="logback.logdir" source="logback.logdir" defaultValue="."/>
+    <springProperty scope="context" name="logback.appname" source="logback.appname" defaultValue="app"/>
+    <springProperty scope="context" name="logback.baseLevel" source="logback.baseLevel" defaultValue="info"/>
+    <springProperty scope="context" name="logback.thirdJarLevel" source="logback.thirdJarLevel" defaultValue="warn"/>
+    <springProperty scope="context" name="logback.appLevel" source="logback.appLevel" defaultValue="info"/>
+
+    <!--输出到控制台 ConsoleAppender-->
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <!--展示格式 layout-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--
+            日志名称，如果没有File属性，那么只会使用FileNamePattern的文件路径规则，
+            如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，
+            明天会自动把今天的日志改名为今天的日期。即，<File> 的日志都是当天的。
+        -->
+        <File>${logback.logdir}/${logback.appname}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logback.logdir}/${logback.appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--只保留最近90天的日志-->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <!--日志输出编码格式化-->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{hh:mm:ss.SSS} [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+    <springProfile name="test,dev">
+        <!--<loger>用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>-->
+        <logger name="com.ys.mgr" level="${logback.baseLevel}" additivity="true">
+            <!--additivity="true"向上级root传递打印信息，使用root的appender打印日志-->
+        </logger>
+
+        <logger name="org.springframework.jdbc.datasource" level="${logback.appLevel}" additivity="true">
+            <!--additivity="true"向上级root传递打印信息，使用root的appender打印日志-->
+        </logger>
+
+        <logger name="org.springframework.jdbc.core" level="${logback.appLevel}" additivity="true">
+            <!--additivity="true"向上级root传递打印信息，使用root的appender打印日志-->
+        </logger>
+
+        <logger name="org.apache.coyote" level="${logback.appLevel}" additivity="true">
+            <!--additivity="true"向上级root传递打印信息，使用root的appender打印日志-->
+        </logger>
+
+        <logger name="org.springframework.data" level="${logback.appLevel}" additivity="true">
+            <!--additivity="true"向上级root传递打印信息，使用root的appender打印日志-->
+        </logger>
+        <logger name="org.springframework.data.redis" level="${logback.appLevel}" additivity="false">
+            <!--additivity="true"向上级root传递打印信息，使用root的appender打印日志-->
+        </logger>
+
+        <logger name="org" level="${logback.thirdJarLevel}" additivity="false">
+            <!--additivity="false"不向上级root传递打印信息，使用自己的appender打印日志-->
+            <appender-ref ref="consoleLog" />
+        </logger>
+
+        <!--指定最基础的日志输出级别-->
+        <root level="${logback.baseLevel}">
+            <!--指定使用的Appender-->
+            <appender-ref ref="consoleLog" />
+            <appender-ref ref="fileLog" />
+        </root>
+    </springProfile>
+
+    <!-- 生产环境. -->
+    <springProfile name="prod">
+        <logger name="com.ys.mgr" level="${logback.appLevel}"/>
+        <logger name="org" level="${logback.thirdJarLevel}"/>
+
+        <root level="${logback.baseLevel}">
+            <appender-ref ref="fileLog" />
+        </root>
+    </springProfile>
+</configuration>
