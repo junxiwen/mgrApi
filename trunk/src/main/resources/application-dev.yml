@@ -1,8 +1,8 @@
 spring:
   datasource: # 数据源
-      url: jdbc:mysql://192.168.0.77:3307/ys?useUnicode=true&characterEncoding=utf-8
-      username: root
-      password: adpopo1234
+      url: jdbc:mysql://ip:port/ys?useUnicode=true&characterEncoding=utf-8
+      username: xxx
+      password: xxx
       driver-class-name: com.mysql.jdbc.Driver
       tomcat: # 连接池
           initial-size: 2 # 20
