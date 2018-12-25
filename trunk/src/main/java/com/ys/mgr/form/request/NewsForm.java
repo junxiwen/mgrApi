@@ -8,4 +8,5 @@ import lombok.Data;
 @Data
 public class NewsForm extends MyRequestForm {
     private String content;
+    private Integer status;
 }
