@@ -55,10 +55,6 @@ public class Spider {
         log.info("开始爬取数据:{}",currentTimeStr);
         try {
             List<String> spiderKeyList = initSpiderKeyList();
-
-            int successNum = 0;//成功数
-            int repeatNum = 0;//重复数
-
             //创建client实例
             HttpClient client= HttpClients.createDefault();
             //创建httpget实例
@@ -99,9 +95,7 @@ public class Spider {
                                 news.setUpdateTime(new Date());
                                 news.setStatus(Common.NEWS_STATUS_OK_0);
                                 newsService.insert(news);
-                                successNum++;
                             }catch (Exception e){
-                                repeatNum++;
                             }
                         }
                     }
@@ -109,7 +103,7 @@ public class Spider {
                     log.error("爬取数据失败,",e);
                 }
             }
-            try {
+            /*try {
                 //log.info("此次数据记录:{},成功数:{},重复数:{}",MyDateUtils.formatDate(currentTime,"yyyy-MM-dd HH:mm:ss"),successNum,repeatNum);
                 SpiderLog spiderLog = new SpiderLog();
                 spiderLog.setContent("成功数:"+successNum+",重复数:"+repeatNum);
@@ -118,7 +112,7 @@ public class Spider {
                 log.info("记录爬虫日志:{}",currentTimeStr);
             }catch (Exception e){
 
-            }
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
         }
