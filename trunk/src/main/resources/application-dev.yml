@@ -1,0 +1,18 @@
+spring:
+  datasource: # 数据源
+      url: jdbc:mysql://ip:port/ys?useUnicode=true&characterEncoding=utf-8
+      username: xxx
+      password: xxx
+      driver-class-name: com.mysql.jdbc.Driver
+      tomcat: # 连接池
+          initial-size: 2 # 20
+          min-idle: 2 # 20
+          max-idle: 20 # 200
+          max-active: 20 # 200
+          max-wait: 50000
+          test-on-borrow: false
+          test-on-return: false
+          test-while-idle: true
+          validation-query: "select 1"
+          time-between-eviction-runs-millis: 60000
+          min-evictable-idle-time-millis: 300000
