@@ -12,6 +12,6 @@ import java.util.List;
  * Created by Administrator on 2018/12/14.
  */
 public interface NewsService extends BaseService<News,Integer> {
-    //查询权限列表
+    //查询新闻列表
     PageData<News> selectPageData(NewsForm queryForm) throws Exception;
 }
