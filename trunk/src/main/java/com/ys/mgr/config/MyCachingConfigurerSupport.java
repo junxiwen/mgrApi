@@ -18,9 +18,6 @@ import java.lang.reflect.Method;
 
 /**
  * 自定义缓存管理器
- *
- * User: fsj
- * Date: 2017/12/8 09:21
  */
 @Configuration
 @EnableCaching // 开启缓存功能
