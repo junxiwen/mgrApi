@@ -1,4 +1,17 @@
 spring:
+  redis: # redis
+      host: xxx
+      password: xxx
+      port: 6379
+      database: 0
+      timeout: 10000
+      pool: # redis连接池
+        max-active: 10 # 200
+        max-idle: 5 # 20
+        min-idle: 2 # 10
+        max-wait: 100000
+  cache: # 缓存
+    type: redis
   datasource: # 数据源
       url: jdbc:mysql://ip:port/ys?useUnicode=true&characterEncoding=utf-8
       username: xxx
