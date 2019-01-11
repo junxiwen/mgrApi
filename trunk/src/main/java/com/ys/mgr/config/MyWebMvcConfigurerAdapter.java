@@ -37,7 +37,7 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
         // excludePathPatterns 用于排除拦截规则
         //registry.addInterceptor(new MyAuthHandlerInterceptor()).addPathPatterns("/**");
         registry.addInterceptor(new MySecurityHandlerInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns("/sysUser/login","/sysUser/*", "/sysUser/logout", "/error","/threadPool/*");
+                .excludePathPatterns("/sysUser/login","/sysUser/*", "/sysUser/logout", "/error");
         super.addInterceptors(registry);
     }
 
