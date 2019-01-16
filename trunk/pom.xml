@@ -100,10 +100,10 @@
 		</dependency>-->
 
 		<!--Redis key-value 数据存储与Spring Data Redis和Jedis客户端启动器-->
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>-->
+		</dependency>
 
 		<!--使用Spring Data Solr的启动器-->
 		<!--<dependency>
